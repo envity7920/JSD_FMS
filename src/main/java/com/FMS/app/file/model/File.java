@@ -18,12 +18,10 @@ public class File {
   private String versionIds;
 
   public File(
-      int id,
       String name,
       String path,
       int fileSize,
       String mime) {
-    this.id = id;
     this.name = name;
     this.path = path;
     this.fileSize = fileSize;
@@ -33,47 +31,65 @@ public class File {
     this.createdDateTime = new Date(System.currentTimeMillis());
   }
 
+  public void setId(int id) {
+    if (id >= 0) {
+      this.id = id;
+    }
+  }
+
   public int getId() {
-    return this.id;
+    return id;
   }
 
   public String getName() {
-    return this.name;
+    return name;
+  }
+
+  public void setFileName(String name) {
+    if (name != null) {
+      this.name = name;
+    }
   }
 
   public String getPath() {
-    return this.path;
+    return path;
   }
 
   public int getFileSize() {
-    return this.fileSize;
+    return fileSize;
   }
 
-  public String mime() {
-    return this.mime;
+  public void setFileSize(int fileSize) {
+    if (fileSize >= 0) {
+      this.fileSize = fileSize;
+    }
+  }
+
+  public String getMime() {
+    return mime;
   }
 
   public int getNumberOfDownload() {
-    return this.numberOfDownload;
+    return numberOfDownload;
   }
 
   public int getVersion() {
-    return this.version;
+    return version;
   }
 
-  public String status() {
-    return this.status;
+  public String getStatus() {
+    return status;
   }
 
   public Date getCreatedDateTime() {
-    return this.createdDateTime;
+    return createdDateTime;
   }
 
   public String getVersions() {
-    return this.versionIds;
+    return versionIds;
   }
 
   public String toString() {
-    return "File: " + this.name + ", located at: " + this.path;
+    return "File: " + name + ", located at: " + path;
   }
 }
