@@ -4,7 +4,9 @@ import static spark.Spark.*;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import com.FMS.app.file.dao.*;
 import com.FMS.app.file.model.*;
 import com.FMS.app.util.*;
@@ -14,11 +16,15 @@ public class App {
         get("/", (req, res) -> {
             // sample database retrieve
             DbConnector connector = new DbConnector();
-            FileDao files = new FileDao(connector);
-            files.getAll();
+            FileDao fileDao = new FileDao(connector);
+            Optional<File> xxx = fileDao.get(1);
+            xxx.get().setFileName("bar.jpg");
+            fileDao.update(xxx.get());
             try {
-                File f = files.getAll().get(0);
-                System.out.print(f);
+                List<File> f = fileDao.getAll();
+                for (File l : f) {
+                    System.out.println(l);
+                }
             } catch (Exception e) {
                 System.err.println("[ERROR] " + e.getMessage());
             }
