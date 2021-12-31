@@ -1,7 +1,10 @@
 package com.FMS.app;
 
 import static spark.Spark.*;
-
+import spark.ModelAndView;
+import spark.template.handlebars.HandlebarsTemplateEngine;
+import java.util.HashMap;
+import java.util.Map;
 import com.FMS.app.file.dao.*;
 import com.FMS.app.file.model.*;
 import com.FMS.app.util.*;
@@ -22,5 +25,12 @@ public class App {
 
             return "Hello Worldsddfsdf";
         });
+
+        get("/sample_view", (req, res) -> {
+            Map m = new HashMap();
+            m.put("key", "value");
+            // sample.hbs will be understand as src/main/resources/sample.hbs
+            return new ModelAndView(m, "sample.hbs");
+        }, new HandlebarsTemplateEngine());
     }
 }
