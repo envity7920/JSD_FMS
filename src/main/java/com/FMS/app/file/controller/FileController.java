@@ -1,11 +1,13 @@
 package com.FMS.app.file.controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 import javax.servlet.http.Part;
-import java.util.List;
 
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -22,19 +24,11 @@ public class FileController extends Controller {
 
   public static void load() {
     get("/", (req, res) -> {
-      Map m = new HashMap();
-      m.put("key", "value");
+      List<File> files = fileDao.getAll();
+      Map<String, Object> viewData = new HashMap<>();
+      viewData.put("files", files);
 
-      // sample.hbs will be understand as src/main/resources/sample.hbs
-      return new ModelAndView(m, "index.hbs");
-    }, new HandlebarsTemplateEngine());
-
-    get("/sample", (req, res) -> {
-      Map m = new HashMap();
-      m.put("pageNumber", "1");
-      m.put("totalPages", "4");
-      // sample.hbs will be understand as src/main/resources/sample.hbs
-      return new ModelAndView(m, "sample.hbs");
+      return new ModelAndView(viewData, "index.hbs");
     }, new HandlebarsTemplateEngine());
 
     post("/upload", "multipart/form-data", (req, res) -> {
