@@ -1,12 +1,14 @@
 package com.FMS.app.file.controller;
 
-import java.util.ArrayList;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-
 import javax.servlet.http.Part;
 
 import spark.ModelAndView;
@@ -17,6 +19,7 @@ import static spark.Spark.delete;
 
 import com.FMS.app.file.dao.FileDao;
 import com.FMS.app.file.model.File;
+import com.FMS.app.util.FileDownloader;
 import com.FMS.app.util.FileUploader;
 
 public class FileController extends Controller {
@@ -45,12 +48,25 @@ public class FileController extends Controller {
       }
 
       res.redirect("/");
-      return null;
+      return res;
+    });
+
+    get("/download", (req, res) -> {
+      int fileId = Integer.valueOf(req.queryParams("fileId"));
+      File file = fileDao.get(fileId).get();
+
+      file.setNumberOfDownload(
+          file.getNumberOfDownload() + 1);
+      fileDao.update(file);
+
+      FileDownloader downloader = new FileDownloader(file, res);
+      downloader.sendFile();
+      return res;
     });
 
     delete("/delete", (req, res) -> {
       res.redirect("/");
-      return null;
+      return res;
     });
   }
 }
