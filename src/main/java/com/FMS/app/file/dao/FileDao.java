@@ -117,10 +117,4 @@ public class FileDao implements Dao<File> {
       System.err.print("[ERROR] " + e.getMessage());
     }
   }
-
-  @Override
-  public Optional<File> get(int id, String string, String string2) {
-    // TODO Auto-generated method stub
-    return null;
-  }
 }
