@@ -26,24 +26,17 @@ public class FileController extends Controller {
 
   public static void load() {
     get("/", (req, res) -> {
-      Optional<File> xxx = fileDao.get(1);
-      xxx.get().setFileName("bar.jpg");
-      fileDao.update(xxx.get());
-      try {
-        List<File> f = fileDao.getAll();
-        for (File l : f) {
-          System.out.println(l);
-        }
-      } catch (Exception e) {
-        System.err.println("[ERROR] " + e.getMessage());
-      }
+      Map m = new HashMap();
+      m.put("key", "value");
 
-      return "Files#index";
-    });
+      // sample.hbs will be understand as src/main/resources/sample.hbs
+      return new ModelAndView(m, "index.hbs");
+    }, new HandlebarsTemplateEngine());
 
     get("/sample", (req, res) -> {
       Map m = new HashMap();
-      m.put("key", "value");
+      m.put("pageNumber", "1");
+      m.put("totalPages", "4");
       // sample.hbs will be understand as src/main/resources/sample.hbs
       return new ModelAndView(m, "sample.hbs");
     }, new HandlebarsTemplateEngine());

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    {{!--
+    <link rel="stylesheet" href="../styles.css"> --}}
+    <title>Document</title>
+    <style>
+        .app-title {
+            margin: auto;
+            font-weight: 900;
+        }
+
+            {
+                {
+
+                 !-- table,
+                th,
+                td {
+                    border: 1px solid black;
+                }
+
+                --
+            }
+        }
+
+
+        .nav-bar {
+            background-color: aqua;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 3rem;
+        }
+
+        .browse-box {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .setting-container {
+            display: none;
+            background-color: blanchedalmond;
+            position: absolute;
+            top: 8rem;
+            left: 23rem;
+            padding: 2rem;
+            border: 1px solid black;
+            margin-left: -2px;
+            border-radius: 2px;
+        }
+
+        {{!-- .form-labelAUT {
+            display: block;
+            min-width: 200px;
+            min-height: 35px;
+
+        } --}}
+        .btn-success {
+            margin-top: 1rem;
+        }
+
+        .pagination {
+           
+            display: flex;
+            float: right;
+            padding: 2rem;
+        }
+        .form-control-file {
+            padding-top: 2rem;
+        }
+    </style>
+</head>
+
+<body class="container">
+    <h1 class="app-title">
+        File Management
+    </h1>
+    <div class="box">
+        <div class="nav-bar">
+            <button>Setting</button>
+            <div class="setting-container">
+                <div id="myDropdown" class="dropdown-content">
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput" class="form-label">Max file size(MB)</label>
+                        <input type="text" class="form-control" id="formGroupExampleInput"
+                            placeholder="Example input placeholder">
+                    </div>
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput2" class="form-label">Item per page</label>
+                        <input type="text" class="form-control" id="formGroupExampleInput2"
+                            placeholder="Another input placeholder">
+                    </div>
+
+                     <div class="mb-3">
+                        <label for="formGroupExampleInput2" class="form-label">Allowed upload type</label>
+                        <input type="text" class="form-control" id="formGroupExampleInput2"
+                            placeholder="Another input placeholder">
+                    </div>
+                    <div class="col-12">
+                        <button type="button" class="btn btn-success">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+            <form>
+                <div class="form-group">
+
+                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                </div>
+            </form>
+            <button type="button" class="btn btn-primary">Upload</button>
+        </div>
+
+        <div class="table-container">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Index</th>
+                        <th>File Name</th>
+                        <th>Version</th>
+                        <th>File Size</th>
+                        <th>Created Time</th>
+                        <th>Download</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>
+                            <button type="button" class="btn btn-light">Download</button>
+                            <button type="button" class="btn btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>
+                            <button type="button" class="btn btn-light">Download</button>
+                            <button type="button" class="btn btn-danger">Delete</button>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination">
+            {{!-- <p>Page {{pageNumber}} of {{totalPages}}</p> --}}
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</body>
+
+</html>
