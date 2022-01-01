@@ -1,14 +1,9 @@
 package com.FMS.app.file.controller;
 
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.Part;
 import java.util.List;
 
@@ -20,6 +15,7 @@ import static spark.Spark.delete;
 
 import com.FMS.app.file.dao.FileDao;
 import com.FMS.app.file.model.File;
+import com.FMS.app.util.FileUploader;
 
 public class FileController extends Controller {
   private static FileDao fileDao = new FileDao(Controller.connector);
@@ -42,37 +38,18 @@ public class FileController extends Controller {
     }, new HandlebarsTemplateEngine());
 
     post("/upload", "multipart/form-data", (req, res) -> {
-      String location = "image"; // the directory location where files will be stored
-      long maxFileSize = 100000000; // the maximum size allowed for uploaded files
-      long maxRequestSize = 100000000; // the maximum size allowed for multipart/form-data requests
-      int fileSizeThreshold = 1024; // the size threshold after which files will be written to disk
-
-      MultipartConfigElement multipartConfigElement = new MultipartConfigElement(
-          location, maxFileSize, maxRequestSize, fileSizeThreshold);
-      req.raw().setAttribute("org.eclipse.jetty.multipartConfig",
-          multipartConfigElement);
+      FileUploader uploader = new FileUploader();
+      uploader.configMultipart(req);
 
       Collection<Part> parts = req.raw().getParts();
       for (Part part : parts) {
-        System.out.println("Name: " + part.getName());
-        System.out.println("Size: " + part.getSize());
-        System.out.println("Filename: " + part.getSubmittedFileName());
+        String fileUrl = uploader.storeFile(part);
+        // TODO: fix deprecated convert long to int
+        File f = new File(part.getSubmittedFileName(), fileUrl, new Long(part.getSize()).intValue(),
+            part.getContentType());
+        fileDao.save(f);
       }
 
-      String fName = req.raw().getPart("file").getSubmittedFileName(); // DIE HERE!
-      System.out.println("Title: " + req.raw().getParameter("title"));
-      System.out.println("File: " + fName);
-
-      Part uploadedFile = req.raw().getPart("file");
-      Path out = Paths.get("image/" + fName);
-      try (final InputStream in = uploadedFile.getInputStream()) {
-        Files.copy(in, out);
-        uploadedFile.delete();
-      }
-      // cleanup
-      multipartConfigElement = null;
-      parts = null;
-      uploadedFile = null;
       res.redirect("/");
       return null;
     });
