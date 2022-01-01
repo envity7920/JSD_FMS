@@ -11,6 +11,8 @@ public class SettingController extends Controller {
   public static void load() {
     post("/update_settings", (req, res) -> {
       // TODO: update first setting
+       Setting t =  new Setting(maxFileSize, itemPerPage, mimeTypeAllowed, lastUpdatedTime)
+
       res.redirect("/");
       return null;
     });

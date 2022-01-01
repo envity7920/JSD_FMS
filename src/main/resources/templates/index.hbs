@@ -29,6 +29,7 @@
         }
 
         .setting-container {
+            display: none;
             background-color: blanchedalmond;
             position: absolute;
             top: 20rem;
@@ -93,7 +94,7 @@
                 function myFunction() {
                     var x = document.getElementById("setting-form");
                     if (x.style.display === "none") {
-                        x.style.display = "block";
+                        x.style.display = "flex";
                     } else {
                         x.style.display = "none";
                     }
