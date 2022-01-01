@@ -22,6 +22,20 @@ public class Setting {
     this.lastUpdatedTime = new Date(System.currentTimeMillis());
   }
 
+  public Setting(
+   
+    int maxFileSize,
+    int itemPerPage,
+    String mimeTypeAllowed,
+    Date lastUpdatedTime) {
+  
+  this.maxFileSize = maxFileSize;
+  this.itemPerPage = itemPerPage;
+  this.mimeTypeAllowed = mimeTypeAllowed;
+  this.lastUpdatedTime = new Date(System.currentTimeMillis());
+}
+
+
 public int getId() {
   return this.id;
 }
@@ -40,5 +54,11 @@ public String getMimeTypeAllowed() {
 
 public Date getLastUpdatedTime() {
   return this.lastUpdatedTime;
+}
+
+public void setId(int id) {
+  if (id >= 0) {
+    this.id = id;
+  }
 }
 }

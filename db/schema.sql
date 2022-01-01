@@ -14,4 +14,12 @@ create table files (
   status varchar(20) not null default("VISIBLE"),
   createdDateTime timestamp not null default(now()),
   versionIds varchar(500)
-)
+);
+
+create table settings (
+  id bigint primary key not null auto_increment,
+  maxFileSize int not null default(20),
+  itemPerPage int not null default(5),
+  mimeTypeAllowed varchar(20) not null,
+  lastUpdatedTime timestamp not null
+);
