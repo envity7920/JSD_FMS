@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DbConnector {
   public final String DATABASE_NAME = "fms";
   public final String USERNAME = "root";
-  public final String PASSWORD = "Toan7920@";
+  public final String PASSWORD = "foobar@123";
   public final String URL_MYSQL = "jdbc:mysql://localhost:3306/" + DATABASE_NAME;
   private Connection conn;
 
