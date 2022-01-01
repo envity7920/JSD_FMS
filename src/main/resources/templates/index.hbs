@@ -29,10 +29,9 @@
         }
 
         .setting-container {
-
             background-color: blanchedalmond;
             position: absolute;
-            top: 8rem;
+            top: 20rem;
             left: 23rem;
             padding: 2rem;
             border: 1px solid black;
@@ -87,8 +86,20 @@
     </div>
     <div class="box">
         <div class="nav-bar">
-            <button>Setting</button>
-            <div class="setting-container">
+            <button type="button" class="btn btn-primary" onclick="myFunction()">
+                Setting
+            </button>
+            <script>
+                function myFunction() {
+                    var x = document.getElementById("setting-form");
+                    if (x.style.display === "none") {
+                        x.style.display = "block";
+                    } else {
+                        x.style.display = "none";
+                    }
+                }
+            </script>
+            <div class="setting-container" id="setting-form">
                 <div id="myDropdown" class="dropdown-content">
                     <div class="mb-3">
                         <label for="formGroupExampleInput" class="form-label">Max file size(MB)</label>
@@ -103,10 +114,12 @@
 
                     <div class="mb-3">
                         <label for="formGroupExampleInput2" class="form-labelAUT">Allowed upload type</label>
-                        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" style="width:200px; height: 35px">
+                        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                            style="width:200px; height: 35px">
                             <option selected>image/png</option>
                             <option value="1">image/jpeg</option>
-                            <option value="2">application/vnd.openxmlformats-officedocument.wordprocessingml.document</option>
+                            <option value="2">application/vnd.openxmlformats-officedocument.wordprocessingml.document
+                            </option>
                             <option value="3">application/pdf</option>
                         </select>
                     </div>
@@ -145,7 +158,9 @@
                         <td>{{ createdDateTime }}</td>
                         <td>{{ numberOfDownload }}</td>
                         <td class="col-action">
-                            <button type="button" class="btn btn-light">Download</button>
+                            <a href="/download?fileId={{ id }}">
+                                <button type="button" class="btn btn-light">Download</button>
+                            </a>
                             <button type="button" class="btn btn-danger">Delete</button>
                         </td>
                     </tr>

@@ -31,6 +31,11 @@ public class FileDao implements Dao<File> {
             rs.getInt(4),
             rs.getString(5));
         file.setId(rs.getInt(1));
+        file.setNumberOfDownload(rs.getInt(6));
+        file.setVersion(rs.getInt(7));
+        file.setStatus(rs.getString(8));
+        file.setCreatedDateTime(rs.getTimestamp(9));
+        file.setVersions(rs.getString(10));
         files.add(file);
       }
     } catch (Exception e) {
@@ -47,14 +52,19 @@ public class FileDao implements Dao<File> {
 
       ResultSet rs = stmt.executeQuery();
       rs.next();
-      File f = new File(
+      File file = new File(
           rs.getString(2),
           rs.getString(3),
           rs.getInt(4),
           rs.getString(5));
-      f.setId(rs.getInt(1));
+      file.setId(rs.getInt(1));
+      file.setNumberOfDownload(rs.getInt(6));
+      file.setVersion(rs.getInt(7));
+      file.setStatus(rs.getString(8));
+      file.setCreatedDateTime(rs.getTimestamp(9));
+      file.setVersions(rs.getString(10));
 
-      return Optional.of(f);
+      return Optional.of(file);
     } catch (Exception e) {
       System.err.print("[ERROR] " + e.getMessage());
     }
@@ -106,11 +116,5 @@ public class FileDao implements Dao<File> {
     } catch (Exception e) {
       System.err.print("[ERROR] " + e.getMessage());
     }
-  }
-
-  @Override
-  public Optional<File> get(int id, String string, String string2) {
-    // TODO Auto-generated method stub
-    return null;
   }
 }
