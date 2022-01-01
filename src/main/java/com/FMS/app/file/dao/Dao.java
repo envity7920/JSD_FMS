@@ -6,7 +6,7 @@ import java.util.Optional;
 public interface Dao<T> {
   List<T> getAll();
 
-  Optional<T> get(int id, String string, String string);
+  Optional<T> get(int id);
 
   void save(T t);
 
