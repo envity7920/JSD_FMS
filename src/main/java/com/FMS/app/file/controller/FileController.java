@@ -1,14 +1,11 @@
 package com.FMS.app.file.controller;
 
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.OutputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 import javax.servlet.http.Part;
 
 import spark.ModelAndView;
@@ -40,10 +37,17 @@ public class FileController extends Controller {
 
       Collection<Part> parts = req.raw().getParts();
       for (Part part : parts) {
-        String fileUrl = uploader.storeFile(part);
-        // TODO: fix deprecated convert long to int
+        String newFileName = part.getSubmittedFileName();
+        int newFileVersion = 1;
+        Optional<File> oldVersionFile = fileDao.get(newFileName);
+        if (oldVersionFile != null) {
+          newFileVersion = oldVersionFile.get().getVersion() + 1;
+        }
+
+        String fileUrl = uploader.storeFile(part, newFileVersion);
         File f = new File(part.getSubmittedFileName(), fileUrl, new Long(part.getSize()).intValue(),
             part.getContentType());
+        f.setVersion(newFileVersion);
         fileDao.save(f);
       }
 

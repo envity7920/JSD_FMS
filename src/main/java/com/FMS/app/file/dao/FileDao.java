@@ -71,15 +71,46 @@ public class FileDao implements Dao<File> {
     return Optional.of(null);
   }
 
+  public Optional<File> get(String name) {
+    try {
+      PreparedStatement stmt = conn
+          .prepareStatement("select * from files where name = ? order by (version) desc limit 1;");
+      stmt.setString(1, name);
+
+      ResultSet rs = stmt.executeQuery();
+      if (rs.next() == false) {
+        return null;
+      }
+      File file = new File(
+          rs.getString(2),
+          rs.getString(3),
+          rs.getInt(4),
+          rs.getString(5));
+      file.setId(rs.getInt(1));
+      file.setNumberOfDownload(rs.getInt(6));
+      file.setVersion(rs.getInt(7));
+      file.setStatus(rs.getString(8));
+      file.setCreatedDateTime(rs.getTimestamp(9));
+      file.setVersions(rs.getString(10));
+
+      return Optional.of(file);
+    } catch (Exception e) {
+      System.err.print("[ERROR] " + e.getMessage());
+    }
+    return Optional.of(null);
+  }
+
   @Override
   public void save(File f) {
     try {
       PreparedStatement stmt = conn
-          .prepareStatement("insert into files (name, path, fileSize, mime) values (?, ?, ?, ?);");
+          .prepareStatement("insert into files (name, path, fileSize, mime, version) values (?, ?, ?, ?, ?);");
       stmt.setString(1, f.getName());
       stmt.setString(2, f.getPath());
       stmt.setInt(3, f.getFileSize());
       stmt.setString(4, f.getMime());
+      stmt.setInt(5, f.getVersion());
+
       stmt.executeUpdate();
     } catch (Exception e) {
       System.err.print("[ERROR] " + e.getMessage());
@@ -91,7 +122,7 @@ public class FileDao implements Dao<File> {
     try {
       PreparedStatement stmt = conn
           .prepareStatement(
-              "update files set name = ?, path = ?, fileSize = ?, mime = ?, numberOfDownload = ?, version = ?, status = ?, versionIds = ? where id = ?");
+              "update files set name = ?, path = ?, fileSize = ?, mime = ?, numberOfDownload = ?, version = ?, status = ?, versionIds = ? where id = ?;");
       stmt.setString(1, f.getName());
       stmt.setString(2, f.getPath());
       stmt.setInt(3, f.getFileSize());
