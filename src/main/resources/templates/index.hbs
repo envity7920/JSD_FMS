@@ -12,6 +12,7 @@
             margin: auto;
             font-weight: 900;
         }
+
         .nav-bar {
             background-color: oldlace;
             display: flex;
@@ -21,12 +22,14 @@
             padding: 1rem 3rem;
             border: 1px solid darkgray;
         }
+
         .browse-box {
             display: flex;
             flex-direction: row;
         }
+
         .setting-container {
-          
+
             background-color: blanchedalmond;
             position: absolute;
             top: 8rem;
@@ -36,6 +39,7 @@
             margin-left: -2px;
             border-radius: 2px;
         }
+
         .btn-success {
             margin-top: 1rem;
         }
@@ -70,6 +74,10 @@
             display: flex !important;
             justify-content: space-evenly !important;
         }
+
+        .form-labelAUT {
+            display: block;
+        }
     </style>
 </head>
 
@@ -84,19 +92,23 @@
                 <div id="myDropdown" class="dropdown-content">
                     <div class="mb-3">
                         <label for="formGroupExampleInput" class="form-label">Max file size(MB)</label>
-                        <input type="text" class="form-control" id="formGroupExampleInput"
-                            placeholder="Example input placeholder">
+                        <input type="number" class="form-control" id="formGroupExampleInput"
+                            placeholder="Enter a number">
                     </div>
                     <div class="mb-3">
                         <label for="formGroupExampleInput2" class="form-label">Item per page</label>
-                        <input type="text" class="form-control" id="formGroupExampleInput2"
-                            placeholder="Another input placeholder">
+                        <input type="number" class="form-control" id="formGroupExampleInput2"
+                            placeholder="Enter a number">
                     </div>
 
-                     <div class="mb-3">
-                        <label for="formGroupExampleInput2" class="form-label">Allowed upload type</label>
-                        <input type="text" class="form-control" id="formGroupExampleInput2"
-                            placeholder="Another input placeholder">
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput2" class="form-labelAUT">Allowed upload type</label>
+                        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" style="width:200px; height: 35px">
+                            <option selected>image/png</option>
+                            <option value="1">image/jpeg</option>
+                            <option value="2">application/vnd.openxmlformats-officedocument.wordprocessingml.document</option>
+                            <option value="3">application/pdf</option>
+                        </select>
                     </div>
                     <div class="col-12">
                         <button type="button" class="btn btn-success">Submit</button>
@@ -125,18 +137,18 @@
                 </thead>
                 <tbody>
                     {{#files}}
-                        <tr>
-                            <th scope="row">{{ id }}</th>
-                            <td>{{ name }}</td>
-                            <td>{{ version }}</td>
-                            <td>{{ fileSize }}</td>
-                            <td>{{ createdDateTime }}</td>
-                            <td>{{ numberOfDownload }}</td>
-                            <td class="col-action">
-                                <button type="button" class="btn btn-light">Download</button>
-                                <button type="button" class="btn btn-danger">Delete</button>
-                            </td>
-                        </tr>
+                    <tr>
+                        <th scope="row">{{ id }}</th>
+                        <td>{{ name }}</td>
+                        <td>{{ version }}</td>
+                        <td>{{ fileSize }}</td>
+                        <td>{{ createdDateTime }}</td>
+                        <td>{{ numberOfDownload }}</td>
+                        <td class="col-action">
+                            <button type="button" class="btn btn-light">Download</button>
+                            <button type="button" class="btn btn-danger">Delete</button>
+                        </td>
+                    </tr>
                     {{/files}}
                 </tbody>
             </table>
