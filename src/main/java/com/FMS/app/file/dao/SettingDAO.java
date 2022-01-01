@@ -29,8 +29,7 @@ public class SettingDao implements Dao<Setting> {
         Setting setting = new Setting(
             rs.getInt(2),
             rs.getInt(3),
-            rs.getString(4),
-            rs.getTimestamp(5));
+            rs.getString(4));
         setting.setId(rs.getInt(1));
         settings.add(setting);
       }
@@ -51,8 +50,7 @@ public class SettingDao implements Dao<Setting> {
       Setting setting = new Setting(
           rs.getInt(2),
           rs.getInt(3),
-          rs.getString(4),
-          rs.getTimestamp(5));
+          rs.getString(4));
       setting.setId(rs.getInt(1));
 
       return Optional.of(setting);
@@ -67,11 +65,10 @@ public class SettingDao implements Dao<Setting> {
   public void save(Setting t) {
     try {
       PreparedStatement stmt = conn.prepareStatement(
-          "insert into settings (maxFileSize, itemPerPage, mimTypeAllowed, lastUpdatedTime) values (?, ?, ?, ?);");
+          "insert into settings (maxFileSize, itemPerPage, mimTypeAllowed) values (?, ?, ?, ?);");
       stmt.setInt(1, t.getMaxFileSize());
       stmt.setInt(2, t.getItemPerPage());
       stmt.setString(3, t.getMimeTypeAllowed());
-      stmt.setTimestamp(4, t.getLastUpdatedTime());
       stmt.executeUpdate();
 
     } catch (Exception e) {
@@ -84,11 +81,10 @@ public class SettingDao implements Dao<Setting> {
   public void update(Setting t) {
     try {
       PreparedStatement stmt = conn.prepareStatement(
-          "update settings set maxFileSize = ?, itemPerPage = ?, mimTypeAllowed = ?, lastUpdatedTime = ? where id = ?;");
+          "update settings set maxFileSize = ?, itemPerPage = ?, mimTypeAllowed = ? where id = ?;");
       stmt.setInt(1, t.getMaxFileSize());
       stmt.setInt(2, t.getItemPerPage());
       stmt.setString(3, t.getMimeTypeAllowed());
-      stmt.setTimestamp(4, t.getLastUpdatedTime());
       stmt.setInt(5, t.getId());
       stmt.executeUpdate();
     } catch (Exception e) {

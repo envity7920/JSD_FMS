@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <title>Document</title>
+    <title>File Management</title>
     <style>
         .app-title {
             margin: auto;
@@ -29,14 +29,13 @@
         }
 
         .setting-container {
-            background-color: blanchedalmond;
+            background-color: oldlace;
             position: absolute;
             top: 20rem;
-            left: 23rem;
-            padding: 2rem;
-            border: 1px solid black;
-            margin-left: -2px;
-            border-radius: 2px;
+            left: 20rem;
+            padding: 2rem 3rem;
+            border: 1px solid darkgray;
+            display: none;
         }
 
         .btn-success {
@@ -77,6 +76,10 @@
         .form-labelAUT {
             display: block;
         }
+
+        .btn-submit-setting {
+            width: 100%;
+        }
     </style>
 </head>
 
@@ -89,44 +92,30 @@
             <button type="button" class="btn btn-primary" onclick="myFunction()">
                 Setting
             </button>
-            <script>
-                function myFunction() {
-                    var x = document.getElementById("setting-form");
-                    if (x.style.display === "none") {
-                        x.style.display = "block";
-                    } else {
-                        x.style.display = "none";
-                    }
-                }
-            </script>
             <div class="setting-container" id="setting-form">
-                <div id="myDropdown" class="dropdown-content">
-                    <div class="mb-3">
-                        <label for="formGroupExampleInput" class="form-label">Max file size(MB)</label>
-                        <input type="number" class="form-control" id="formGroupExampleInput"
-                            placeholder="Enter a number">
-                    </div>
-                    <div class="mb-3">
-                        <label for="formGroupExampleInput2" class="form-label">Item per page</label>
-                        <input type="number" class="form-control" id="formGroupExampleInput2"
-                            placeholder="Enter a number">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="formGroupExampleInput2" class="form-labelAUT">Allowed upload type</label>
-                        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                            style="width:200px; height: 35px">
-                            <option selected>image/png</option>
-                            <option value="1">image/jpeg</option>
-                            <option value="2">application/vnd.openxmlformats-officedocument.wordprocessingml.document
-                            </option>
-                            <option value="3">application/pdf</option>
-                        </select>
-                    </div>
-                    <div class="col-12">
-                        <button type="button" class="btn btn-success">Submit</button>
-                    </div>
+                <div class="mb-3">
+                    <label for="maxFileSize" class="form-label">Max file size(MB)</label>
+                    <input type="number" class="form-control" id="maxFileSize"
+                        placeholder="Enter a number" name="maxFileSize" value="5">
                 </div>
+                <div class="mb-3">
+                    <label for="itemPerPage" class="form-label">Item per page</label>
+                    <input type="number" class="form-control" id="itemPerPage" name="itemPerPage" value="3"
+                        placeholder="Enter a number">
+                </div>
+
+                <div class="mb-3">
+                    <label for="allowedUploadType" class="form-labelAUT">Allowed upload type</label>
+                    <select class="form-select form-select-lg mb-3" id="allowedUploadType" name="allowedUploadType"
+                        style="width:200px; height: 35px">
+                        <option selected>image/png</option>
+                        <option value="image/jpeg">image/jpeg</option>
+                        <option value="application/vnd.openxmlformats-officedocument.wordprocessingml.document">application/vnd.openxmlformats-officedocument.wordprocessingml.document
+                        </option>
+                        <option value="application/pdf">application/pdf</option>
+                    </select>
+                </div>
+                <button type="button" class="btn btn-success btn-submit-setting">Save</button>
             </div>
 
             <form class="form-upload" action="/upload" method="POST" enctype="multipart/form-data">
@@ -175,15 +164,23 @@
             {{!-- <p>Page {{pageNumber}} of {{totalPages}}</p> --}}
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    {{#pages}}
+                        <li class="page-item
+                        {{#if active}}
+                            active
+                        {{/if}}"><a class="page-link" href="{{ url }}">{{ index }}</a></li>
+                    {{/pages}}
                 </ul>
             </nav>
         </div>
     </div>
+
+    <script>
+        function myFunction() {
+            var x = document.getElementById("setting-form");
+            x.style.display = x.style.display === "block" ? "none" : "block";
+        }
+    </script>
 </body>
 
 </html>

@@ -15,17 +15,36 @@ import static spark.Spark.post;
 
 import com.FMS.app.file.dao.FileDao;
 import com.FMS.app.file.model.File;
+import com.FMS.app.file.model.Setting;
 import com.FMS.app.util.FileDownloader;
 import com.FMS.app.util.FileUploader;
+import com.FMS.app.util.Paginator;
 
 public class FileController extends Controller {
   private static FileDao fileDao = new FileDao(Controller.connector);
 
   public static void load() {
     get("/", (req, res) -> {
-      List<File> files = fileDao.getAll();
+      String currentPage = req.queryParams("currentPage");
+      Setting setting = new Setting(5000000, 3, "");
+
+      if (currentPage == null) {
+        currentPage = "1";
+      }
+
+      List<File> files = fileDao.getAll(
+          setting.getItemPerPage(),
+          Integer.valueOf(currentPage),
+          setting.getMaxFileSize());
+      int total = fileDao.getTotalCount();
+      Paginator paginator = new Paginator(
+          setting.getItemPerPage(),
+          Integer.valueOf(currentPage),
+          total);
+
       Map<String, Object> viewData = new HashMap<>();
       viewData.put("files", files);
+      viewData.put("pages", paginator.genPages());
 
       return new ModelAndView(viewData, "index.hbs");
     }, new HandlebarsTemplateEngine());

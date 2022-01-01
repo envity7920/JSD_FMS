@@ -44,6 +44,54 @@ public class FileDao implements Dao<File> {
     return files;
   }
 
+  public int getTotalCount() {
+    try {
+      Statement stmt = conn.createStatement();
+      ResultSet rs = stmt.executeQuery("select count(*) from files where status = '" + File.STATUS_VISIBLE + "';");
+
+      rs.next();
+      return rs.getInt(1);
+    } catch (Exception e) {
+      System.err.println("[ERROR] " + e.getMessage());
+    }
+    return 0;
+  }
+
+  public List<File> getAll(int limit, int currentPage, int maxSize) {
+    List<File> files = new ArrayList<>();
+    try {
+      Statement stmt = conn.createStatement();
+      int offset = 0;
+
+      offset = limit * currentPage - limit;
+      String sql = "select * from files where status = '" + File.STATUS_VISIBLE;
+      int fileSize = maxSize * 1000000;
+      sql += "' and fileSize <= " + String.valueOf(fileSize);
+      sql += " limit " + limit + " offset " + offset;
+      sql += ";";
+
+      ResultSet rs = stmt.executeQuery(sql);
+
+      while (rs.next()) {
+        File file = new File(
+            rs.getString(2),
+            rs.getString(3),
+            rs.getInt(4),
+            rs.getString(5));
+        file.setId(rs.getInt(1));
+        file.setNumberOfDownload(rs.getInt(6));
+        file.setVersion(rs.getInt(7));
+        file.setStatus(rs.getString(8));
+        file.setCreatedDateTime(rs.getTimestamp(9));
+        file.setVersions(rs.getString(10));
+        files.add(file);
+      }
+    } catch (Exception e) {
+      System.err.println("[ERROR] " + e.getMessage());
+    }
+    return files;
+  }
+
   @Override
   public Optional<File> get(int id) {
     try {

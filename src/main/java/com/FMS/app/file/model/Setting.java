@@ -12,12 +12,10 @@ public class Setting {
   public Setting(
       int maxFileSize,
       int itemPerPage,
-      String mimeTypeAllowed,
-      Timestamp lastUpdatedTime) {
+      String mimeTypeAllowed) {
     this.maxFileSize = maxFileSize;
     this.itemPerPage = itemPerPage;
     this.mimeTypeAllowed = mimeTypeAllowed;
-    this.lastUpdatedTime = new Timestamp(System.currentTimeMillis());
   }
 
   public int getId() {
