@@ -141,8 +141,9 @@ public class FileDao implements Dao<File> {
   @Override
   public void delete(File f) {
     try {
-      PreparedStatement stmt = conn.prepareStatement("delete from files where id =  ?;");
-      stmt.setInt(1, f.getId());
+      PreparedStatement stmt = conn.prepareStatement("update files set status = ? where id =  ?;");
+      stmt.setString(1, File.STATUS_REMOVED);
+      stmt.setInt(2, f.getId());
       stmt.executeUpdate();
     } catch (Exception e) {
       System.err.print("[ERROR] " + e.getMessage());

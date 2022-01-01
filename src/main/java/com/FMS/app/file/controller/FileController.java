@@ -12,7 +12,6 @@ import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 import static spark.Spark.get;
 import static spark.Spark.post;
-import static spark.Spark.delete;
 
 import com.FMS.app.file.dao.FileDao;
 import com.FMS.app.file.model.File;
@@ -68,7 +67,12 @@ public class FileController extends Controller {
       return res;
     });
 
-    delete("/delete", (req, res) -> {
+    get("/delete", (req, res) -> {
+      int fileId = Integer.valueOf(req.queryParams("fileId"));
+      Optional<File> file = fileDao.get(fileId);
+      if (!file.isEmpty()) {
+        fileDao.delete(file.get());
+      }
       res.redirect("/");
       return res;
     });
