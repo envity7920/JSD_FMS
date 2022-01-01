@@ -133,7 +133,9 @@
                             <td>{{ createdDateTime }}</td>
                             <td>{{ numberOfDownload }}</td>
                             <td class="col-action">
-                                <button type="button" class="btn btn-light">Download</button>
+                                <a href="/download?fileId={{ id }}">
+                                    <button type="button" class="btn btn-light">Download</button>
+                                </a>
                                 <button type="button" class="btn btn-danger">Delete</button>
                             </td>
                         </tr>

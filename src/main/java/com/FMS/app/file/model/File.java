@@ -1,6 +1,7 @@
 package com.FMS.app.file.model;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class File {
   public final static String STATUS_REMOVED = "REMOVED";
@@ -14,7 +15,7 @@ public class File {
   private int numberOfDownload;
   private int version;
   private String status;
-  private Date createdDateTime;
+  private Timestamp createdDateTime;
   private String versionIds;
 
   public File(
@@ -28,7 +29,7 @@ public class File {
     this.mime = mime;
     this.numberOfDownload = 0;
     this.status = File.STATUS_VISIBLE;
-    this.createdDateTime = new Date(System.currentTimeMillis());
+    this.createdDateTime = new Timestamp(System.currentTimeMillis());
   }
 
   public void setId(int id) {
@@ -81,12 +82,38 @@ public class File {
     return status;
   }
 
-  public Date getCreatedDateTime() {
+  public Timestamp getCreatedDateTime() {
     return createdDateTime;
   }
 
   public String getVersions() {
     return versionIds;
+  }
+
+  public void setNumberOfDownload(int numberOfDownload) {
+    if (numberOfDownload >= 0) {
+      this.numberOfDownload = numberOfDownload;
+    }
+  }
+
+  public void setVersion(int version) {
+    if (version >= 0) {
+      this.version = version;
+    }
+  }
+
+  public void setStatus(String status) {
+    if (status == File.STATUS_REMOVED || status == File.STATUS_VISIBLE) {
+      this.status = status;
+    }
+  }
+
+  public void setCreatedDateTime(Timestamp createdDateTime) {
+    this.createdDateTime = createdDateTime;
+  }
+
+  public void setVersions(String versions) {
+    this.versionIds = versions;
   }
 
   @Override
