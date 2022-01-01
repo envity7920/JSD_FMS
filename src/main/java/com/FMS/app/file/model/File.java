@@ -89,6 +89,7 @@ public class File {
     return versionIds;
   }
 
+  @Override
   public String toString() {
     return "File: " + name + ", located at: " + path;
   }

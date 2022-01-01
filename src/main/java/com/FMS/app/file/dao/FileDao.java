@@ -22,7 +22,7 @@ public class FileDao implements Dao<File> {
     List<File> files = new ArrayList<>();
     try {
       Statement stmt = conn.createStatement();
-      ResultSet rs = stmt.executeQuery("select * from files");
+      ResultSet rs = stmt.executeQuery("select * from files where status = '" + File.STATUS_VISIBLE + "';");
 
       while (rs.next()) {
         File file = new File(
