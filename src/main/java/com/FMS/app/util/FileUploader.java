@@ -25,15 +25,15 @@ public class FileUploader {
     req.raw().setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement);
   }
 
-  public String storeFile(Part file) {
-    String url = location + "/" + file.getSubmittedFileName();
+  public String storeFile(Part file, int version) {
+    String url = location + "/v" + String.valueOf(version) + "_" + file.getSubmittedFileName();
 
     try (final InputStream in = file.getInputStream()) {
       Path out = Paths.get(url);
       Files.copy(in, out);
       file.delete();
     } catch (Exception e) {
-      System.err.println("[ERROR] " + e.getMessage());
+      e.printStackTrace();
     }
 
     return url;
