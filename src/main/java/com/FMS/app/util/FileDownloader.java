@@ -28,7 +28,7 @@ public class FileDownloader {
     configResponseHeaders();
     try {
       OutputStream outStream = res.raw().getOutputStream();
-      Path path = Paths.get(location + "/" + file.getName());
+      Path path = Paths.get(location + "/v" + file.getVersion() + "_" + file.getName());
       DataInputStream inStream = new DataInputStream(
           new FileInputStream(path.toString()));
       int nBytesToRead = inStream.available();
