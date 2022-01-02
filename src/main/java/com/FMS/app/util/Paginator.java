@@ -26,9 +26,7 @@ public class Paginator {
         page.setActive(true);
       }
 
-      if (i * limit <= total) {
-        pages.add(page);
-      }
+      pages.add(page);
     }
 
     return pages;
