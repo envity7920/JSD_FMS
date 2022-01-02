@@ -14,6 +14,7 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 
 import com.FMS.app.file.dao.FileDao;
+import com.FMS.app.file.dao.SettingDao;
 import com.FMS.app.file.model.File;
 import com.FMS.app.file.model.Setting;
 import com.FMS.app.util.FileDownloader;
@@ -22,29 +23,41 @@ import com.FMS.app.util.Paginator;
 
 public class FileController extends Controller {
   private static FileDao fileDao = new FileDao(Controller.connector);
+  private static SettingDao settingDao = new SettingDao(Controller.connector);
 
   public static void load() {
     get("/", (req, res) -> {
       String currentPage = req.queryParams("currentPage");
-      Setting setting = new Setting(5000000, 3, "");
+      Setting currentSetting = new Setting(50000000, 3, "all");
+      Optional<Setting> setting = settingDao.get(1);
+
+      if (setting != null) {
+        currentSetting.setMaxFileSize(setting.get().getMaxFileSize());
+        currentSetting.setItemPerPage(setting.get().getItemPerPage());
+        currentSetting.setAllowedUploadType(setting.get().getMimeTypeAllowed());
+      }
 
       if (currentPage == null) {
         currentPage = "1";
       }
 
       List<File> files = fileDao.getAll(
-          setting.getItemPerPage(),
+          currentSetting.getItemPerPage(),
           Integer.valueOf(currentPage),
-          setting.getMaxFileSize());
-      int total = fileDao.getTotalCount();
+          currentSetting.getMaxFileSize(),
+          currentSetting.getMimeTypeAllowed());
+      int total = fileDao.getTotalCount(
+          currentSetting.getMaxFileSize(),
+          currentSetting.getMimeTypeAllowed());
       Paginator paginator = new Paginator(
-          setting.getItemPerPage(),
+          currentSetting.getItemPerPage(),
           Integer.valueOf(currentPage),
           total);
 
       Map<String, Object> viewData = new HashMap<>();
       viewData.put("files", files);
       viewData.put("pages", paginator.genPages());
+      viewData.put("setting", currentSetting);
 
       return new ModelAndView(viewData, "index.hbs");
     }, new HandlebarsTemplateEngine());

@@ -1,7 +1,5 @@
 package com.FMS.app.file.dao;
 
-import com.FMS.app.file.model.File;
-import com.FMS.app.util.DbConnector;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +7,9 @@ import java.util.Optional;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
+import com.FMS.app.file.model.File;
+import com.FMS.app.util.DbConnector;
 
 public class FileDao implements Dao<File> {
   private Connection conn;
@@ -39,25 +40,31 @@ public class FileDao implements Dao<File> {
         files.add(file);
       }
     } catch (Exception e) {
-      System.err.println("[ERROR] " + e.getMessage());
+      e.printStackTrace();
     }
     return files;
   }
 
-  public int getTotalCount() {
+  public int getTotalCount(int maxSize, String allowedFileType) {
     try {
       Statement stmt = conn.createStatement();
-      ResultSet rs = stmt.executeQuery("select count(*) from files where status = '" + File.STATUS_VISIBLE + "';");
+      String sql = "select count(*) from files where status = '" + File.STATUS_VISIBLE + "'";
+      int fileSize = maxSize * 1000000;
+      sql += " and fileSize <= " + String.valueOf(fileSize);
+      if (!allowedFileType.equals("*")) {
+        sql += " and mime = '" + allowedFileType + "';";
+      }
+      ResultSet rs = stmt.executeQuery(sql);
 
       rs.next();
       return rs.getInt(1);
     } catch (Exception e) {
-      System.err.println("[ERROR] " + e.getMessage());
+      e.printStackTrace();
     }
     return 0;
   }
 
-  public List<File> getAll(int limit, int currentPage, int maxSize) {
+  public List<File> getAll(int limit, int currentPage, int maxSize, String allowedFileType) {
     List<File> files = new ArrayList<>();
     try {
       Statement stmt = conn.createStatement();
@@ -67,8 +74,12 @@ public class FileDao implements Dao<File> {
       String sql = "select * from files where status = '" + File.STATUS_VISIBLE;
       int fileSize = maxSize * 1000000;
       sql += "' and fileSize <= " + String.valueOf(fileSize);
-      sql += " limit " + limit + " offset " + offset;
-      sql += ";";
+      if (!allowedFileType.equals("*")) {
+        sql += " and mime = '" + allowedFileType + "'";
+      }
+      sql += " order by createdDateTime desc, name, version";
+      sql += " limit " + limit + " offset " + offset + ";";
+      System.out.println(sql);
 
       ResultSet rs = stmt.executeQuery(sql);
 
@@ -87,7 +98,7 @@ public class FileDao implements Dao<File> {
         files.add(file);
       }
     } catch (Exception e) {
-      System.err.println("[ERROR] " + e.getMessage());
+      e.printStackTrace();
     }
     return files;
   }
@@ -114,7 +125,7 @@ public class FileDao implements Dao<File> {
 
       return Optional.of(file);
     } catch (Exception e) {
-      System.err.print("[ERROR] " + e.getMessage());
+      e.printStackTrace();
     }
     return Optional.of(null);
   }
@@ -143,7 +154,7 @@ public class FileDao implements Dao<File> {
 
       return Optional.of(file);
     } catch (Exception e) {
-      System.err.print("[ERROR] " + e.getMessage());
+      e.printStackTrace();
     }
     return Optional.of(null);
   }
@@ -161,7 +172,7 @@ public class FileDao implements Dao<File> {
 
       stmt.executeUpdate();
     } catch (Exception e) {
-      System.err.print("[ERROR] " + e.getMessage());
+      e.printStackTrace();
     }
   }
 
@@ -182,7 +193,7 @@ public class FileDao implements Dao<File> {
       stmt.setInt(9, f.getId());
       stmt.executeUpdate();
     } catch (Exception e) {
-      System.err.print("[ERROR] " + e.getMessage());
+      e.printStackTrace();
     }
   }
 
@@ -194,7 +205,7 @@ public class FileDao implements Dao<File> {
       stmt.setInt(2, f.getId());
       stmt.executeUpdate();
     } catch (Exception e) {
-      System.err.print("[ERROR] " + e.getMessage());
+      e.printStackTrace();
     }
   }
 }

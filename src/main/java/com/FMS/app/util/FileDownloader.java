@@ -39,7 +39,7 @@ public class FileDownloader {
       }
       outStream.flush();
     } catch (Exception e) {
-      System.err.println("[ERROR] " + e.getMessage());
+      e.printStackTrace();
     }
   }
 }

@@ -34,7 +34,7 @@ public class SettingDao implements Dao<Setting> {
         settings.add(setting);
       }
     } catch (Exception e) {
-      System.err.println("[ERROR] " + e.getMessage());
+      e.printStackTrace();
     }
     return settings;
   }
@@ -70,7 +70,7 @@ public class SettingDao implements Dao<Setting> {
       stmt.executeUpdate();
 
     } catch (Exception e) {
-      System.err.print("[ERROR] " + e.getMessage());
+      e.printStackTrace();
     }
 
   }
@@ -87,8 +87,6 @@ public class SettingDao implements Dao<Setting> {
       stmt.executeUpdate();
     } catch (Exception e) {
       e.printStackTrace();
-      System.err.print("[ERROR] " + e.getMessage());
-
     }
   }
 
@@ -99,7 +97,7 @@ public class SettingDao implements Dao<Setting> {
       stmt.setInt(1, t.getId());
       stmt.executeUpdate();
     } catch (Exception e) {
-      System.err.print("[ERROR] " + e.getMessage());
+      e.printStackTrace();
     }
   }
 }
