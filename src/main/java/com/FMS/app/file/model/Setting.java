@@ -12,8 +12,7 @@ public class Setting {
   public Setting(
       int maxFileSize,
       int itemPerPage,
-      String mimeTypeAllowed,
-      Timestamp lastUpdatedTime) {
+      String mimeTypeAllowed) {
     this.maxFileSize = maxFileSize;
     this.itemPerPage = itemPerPage;
     this.mimeTypeAllowed = mimeTypeAllowed;
@@ -36,13 +35,26 @@ public class Setting {
     return mimeTypeAllowed;
   }
 
-  public Timestamp getLastUpdatedTime() {
-    return lastUpdatedTime;
-  }
-
   public void setId(int id) {
     if (id >= 0) {
       this.id = id;
     }
+  }
+
+  public void setMaxFileSize(int maxFileSize) {
+    this.maxFileSize = maxFileSize;
+  }
+
+  public void setItemPerPage(int itemPerPage) {
+    this.itemPerPage = itemPerPage;
+  }
+
+  public void setAllowedUploadType(String mimeTypeAllowed) {
+    this.mimeTypeAllowed = mimeTypeAllowed;
+  }
+
+  @Override
+  public String toString() {
+    return "Setting: maxSize=" + maxFileSize + ", itemPerPage=" + itemPerPage + ", mimeType=" + mimeTypeAllowed;
   }
 }

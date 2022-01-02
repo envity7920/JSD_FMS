@@ -101,6 +101,7 @@
                 }
             </script>
             <div class="setting-container" id="setting-form">
+                <form action="/update_settings" method="post">
                 <div id="myDropdown" class="dropdown-content">
                     <div class="mb-3">
                         <label for="formGroupExampleInput" class="form-label">Max file size(MB)</label>
@@ -116,8 +117,8 @@
                     <div class="mb-3">
                         <label for="formGroupExampleInput2" class="form-labelAUT">Allowed upload type</label>
                         <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                            style="width:200px; height: 35px">
-                            <option selected id="selectedMimeType" name="selectedMimeType">image/png</option>
+                            style="width:200px; height: 35px" id="selectedMimeType" name="selectedMimeType">
+                            <option selected >image/png</option>
                             <option value="1">image/jpeg</option>
                             <option value="2">application/vnd.openxmlformats-officedocument.wordprocessingml.document
                             </option>
@@ -125,9 +126,10 @@
                         </select>
                     </div>
                     <div class="col-12">
-                        <button type="button" class="btn btn-success">Submit</button>
+                        <button type="submit" class="btn btn-success">Submit</button>
                     </div>
                 </div>
+                </form>
             </div>
 
             <form class="form-upload" action="/upload" method="POST" enctype="multipart/form-data">

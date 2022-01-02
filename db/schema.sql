@@ -21,5 +21,5 @@ create table settings (
   maxFileSize int not null default(20),
   itemPerPage int not null default(5),
   mimeTypeAllowed varchar(20) not null,
-  lastUpdatedTime timestamp not null
+  lastUpdatedTime timestamp not null default(now())
 );

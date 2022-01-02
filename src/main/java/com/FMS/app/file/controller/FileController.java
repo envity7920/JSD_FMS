@@ -70,9 +70,9 @@ public class FileController extends Controller {
     get("/delete", (req, res) -> {
       int fileId = Integer.valueOf(req.queryParams("fileId"));
       Optional<File> file = fileDao.get(fileId);
-      if (!file.isEmpty()) {
-        fileDao.delete(file.get());
-      }
+      // if (!file.isEmpty()) {
+      //   fileDao.delete(file.get());
+      // }
       res.redirect("/");
       return res;
     });
