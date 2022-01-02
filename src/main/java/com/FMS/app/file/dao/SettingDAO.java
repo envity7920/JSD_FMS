@@ -55,9 +55,8 @@ public class SettingDao implements Dao<Setting> {
 
       return Optional.of(setting);
     } catch (Exception e) {
-      System.err.print("[ERROR] " + e.getMessage());
+      return null;
     }
-    return Optional.of(null);
   }
 
   @Override

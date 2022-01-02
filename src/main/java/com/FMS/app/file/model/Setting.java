@@ -16,7 +16,6 @@ public class Setting {
     this.maxFileSize = maxFileSize;
     this.itemPerPage = itemPerPage;
     this.mimeTypeAllowed = mimeTypeAllowed;
-    this.lastUpdatedTime = new Timestamp(System.currentTimeMillis());
   }
 
   public int getId() {
